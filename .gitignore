@@ -1,0 +1,5 @@
+.vscode/
+__pycache__/
+PCA-graf.png
+MDS-graf.png
+TSNE-graf.png
