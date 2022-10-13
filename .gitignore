@@ -1,5 +1,5 @@
 .vscode/
 __pycache__/
-PCA-graf.png
-MDS-graf.png
-TSNE-graf.png
+PCA-graph.png
+MDS-graph.png
+TSNE-graph.png

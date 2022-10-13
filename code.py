@@ -9,7 +9,7 @@ from sklearn.manifold import MDS, TSNE
 
 import numpy as np
 
-def grupiraj_po_n(text, n):
+def group_n(text, n):
     res = []
     for i in range(len(text)-n+1):
         res.append(text[i:i+n])
@@ -17,23 +17,21 @@ def grupiraj_po_n(text, n):
 
 def terke(text, n):
     """
-    Vrne slovar s preštetimi terkami dolžine n.
+    Returns dict with counted tries of length n.
     """
     text = text.lower()
     text = unidecode(text)
     text = re.sub(r'[^A-Za-z ]+', '', text)
     text = re.sub(r'\n', '', text)
-    res = dict(Counter(grupiraj_po_n(text, n)))
+    res = dict(Counter(group_n(text, n)))
     return res
 
 
 def read_data(n_terke):
-    # Prosim, ne spreminjajte te funkcije. Vso potrebno obdelavo naredite
-    # v funkciji terke.
     lds = {}
-    for fn in listdir("jeziki"):
-        if fn.lower().endswith(".txt"):
-            with open(join("jeziki", fn), encoding="utf8") as f:
+    for fn in listdir('languages'):
+        if fn.lower().endswith('.txt'):
+            with open(join('languages', fn), encoding='utf8') as f:
                 text = f.read()
                 nter = terke(text, n=n_terke)
                 lds[fn] = nter
@@ -41,9 +39,6 @@ def read_data(n_terke):
 
 
 def cosine_dist(d1:dict, d2:dict):
-    """
-    Vrne kosinusno razdaljo med slovarjema terk d1 in d2.
-    """
     skupni = set(d1.keys()).intersection(set(d2.keys()))
     produkt = sum(d1[key] * d2[key] for key in skupni)
     kolicnik = np.sqrt(sum(terka**2 for terka in d1.values())) * np.sqrt(sum(terka**2 for terka in d2.values()))
@@ -155,7 +150,7 @@ def plot_PCA():
     plt.scatter(dims[0], dims[1])
     for i in range(len(languages)):
         plt.annotate(languages[i], xy=(dims[0][i], dims[1][i]))
-    plt.savefig('PCA-graf.png')
+    plt.savefig('PCA-graph.png')
     plt.clf()
     
 
@@ -182,13 +177,13 @@ def plot_MDS():
     plt.scatter(g1[:,0], g1[:,1])
     for i in range(len(languages)):
         plt.annotate(languages[i], xy=(g1[i,0], g1[i,1]))
-    plt.savefig('MDS-graf.png')
+    plt.savefig('MDS-graph.png')
     plt.clf()
 
     plt.scatter(g2[:,0], g2[:,1])
     for i in range(len(languages)):
         plt.annotate(languages[i], xy=(g2[i,0], g2[i,1]))
-    plt.savefig('TSNE-graf.png')
+    plt.savefig('TSNE-graph.png')
     plt.clf()
 
 
